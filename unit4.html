@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4 Cyber Security Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div id="app" class="max-w-md mx-auto min-h-screen flex flex-col p-4">
+        <!-- Start Screen -->
+        <div id="start-screen" class="flex-1 flex flex-col justify-center items-center text-center">
+            <div class="w-24 h-24 bg-rose-100 rounded-3xl flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Unit 4 Quiz</h1>
+            <p class="text-slate-500 mb-8 font-medium italic">Cyber Security & Ethics (50 MCQs)</p>
+            <button onclick="startQuiz()" class="w-full bg-rose-600 text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-rose-700 mb-4">Start Solving Unit 4</button>
+            <a href="index.html" class="text-rose-600 font-bold underline">← Go back to Unit 3</a>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden flex-1 flex flex-col">
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span id="progress-text" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Question 1/50</span>
+                    <span id="score-text" class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-xs font-bold">Score: 0</span>
+                </div>
+                <div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden"><div id="progress-bar" class="h-full bg-rose-500 transition-all duration-300" style="width: 2%"></div></div>
+            </div>
+            <h2 id="question-text" class="text-xl font-bold text-slate-800 mb-6 leading-snug"></h2>
+            <div id="options-container" class="space-y-3 mb-6"></div>
+            <div id="explanation-box" class="hidden mb-6 p-4 bg-slate-900 rounded-2xl text-slate-300 text-sm italic border-l-4 border-rose-500"></div>
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-slate-800 text-white py-4 rounded-2xl font-bold text-lg shadow-md mt-auto">Next Question</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden flex-1 flex flex-col justify-center items-center text-center">
+            <h2 class="text-3xl font-black text-slate-800 mb-8">Results</h2>
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 w-full mb-8"><p id="final-score" class="text-6xl font-black text-rose-600 mb-2">0</p><p class="text-xs font-bold text-slate-400 uppercase">Correct out of 50</p></div>
+            <button onclick="location.reload()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold mb-4">Retry Unit 4</button>
+            <a href="index.html" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold text-center">← Solve Unit 3 Quiz</a>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "What is the primary goal of Cyber Security?", options: ["Increasing internet speed", "Protecting systems, networks, and data from digital attacks", "Selling computer hardware", "Developing social media apps"], a: 1, e: "Cyber security focuses on protecting electronic data and systems from malicious attacks." },
+            { q: "Hacking an operating system by exploiting bugs is called:", options: ["Application Hacking", "Network Hacking", "OS Hacking", "Firmware Hacking"], a: 2, e: "OS Hacking involves gaining unauthorized access to a computer by exploiting vulnerabilities in the Operating System." },
+            { q: "An attacker using AI to generate realistic phishing emails is an example of:", options: ["Physical Security", "AI-enhanced Social Engineering", "Hardware failure", "Firmware update"], a: 1, e: "AI can be used to create highly convincing phishing content to trick users." },
+            { q: "Which type of hacking targets routers and switches to redirect traffic?", options: ["OS Hacking", "Network Hacking", "Password Hacking", "Web Hacking"], a: 1, e: "Network Hacking involves exploiting vulnerabilities in network devices or protocols." },
+            { q: "Firmware hacking primarily targets:", options: ["Web browsers", "Software applications", "Embedded code in hardware (BIOS/UEFI)", "User passwords"], a: 2, e: "Firmware hacking targets the permanent software programmed into hardware components." },
+            { q: "Application hacking usually exploits vulnerabilities in:", options: ["Operating Systems", "Web apps and software programs", "Physical servers", "Fiber optic cables"], a: 1, e: "Application hacking focuses on software-level vulnerabilities like SQL injection or Buffer Overflow." },
+            { q: "Digital Forensics is the process of:", options: ["Hacking websites", "Preserving and analyzing digital evidence for legal use", "Deleting browser history", "Installing antivirus"], a: 1, e: "Digital forensics is used to recover and investigate material found in digital devices, often for legal cases." },
+            { q: "The first step in a digital forensic investigation is:", options: ["Analysis", "Collection", "Identification", "Preservation"], a: 2, e: "Identification involves determining what evidence is available and where it is located." },
+            { q: "Which step ensures that digital evidence is not altered or damaged?", options: ["Collection", "Preservation", "Reporting", "Reporting"], a: 1, e: "Preservation involves creating 'forensic images' and protecting original data from change." },
+            { q: "Chain of Custody is critical for evidence to be:", options: ["Deleted", "Admissible in court", "Kept secret", "Used for marketing"], a: 1, e: "Chain of custody tracks who handled evidence and when, ensuring it hasn't been tampered with." },
+            { q: "Ransomware 2.0 involves not just encryption but also:", options: ["Giving free money", "Data Exfiltration and blackmail", "Speeding up the PC", "Providing software updates"], a: 1, e: "Modern ransomware threats to leak sensitive data if the ransom isn't paid (Double Extortion)." },
+            { q: "The DPDP Act 2023 stands for:", options: ["Digital Personal Data Protection Act", "Data Privacy Digital Protocol", "Direct Personal Data Policy", "Digital Public Data Privacy"], a: 0, e: "The Digital Personal Data Protection Act 2023 is India's framework for data privacy." },
+            { q: "Under DPDP Act 2023, the individual whose data is processed is called:", options: ["Data Miner", "Data Fiduciary", "Data Principal", "Data Hacker"], a: 2, e: "The individual to whom the personal data relates is the Data Principal." },
+            { q: "The entity that determines the purpose of data processing is the:", options: ["Data Fiduciary", "Data Collector", "Data Principal", "Data Processor"], a: 0, e: "A Data Fiduciary is responsible for how and why personal data is processed." },
+            { q: "What is an 'Ethical Hacker' often called?", options: ["Black Hat", "Grey Hat", "White Hat", "Script Kiddie"], a: 2, e: "White Hat hackers use their skills legally to find and fix security vulnerabilities." },
+            { q: "Which Indian law provides the primary legal framework for cybercrimes?", options: ["IT Act 2000", "Contract Act", "IPC 302", "Motor Vehicle Act"], a: 0, e: "The Information Technology Act 2000 is the main law dealing with cybercrime and e-commerce in India." },
+            { q: "An attacker using a deepfake video of a CEO to trick an employee is using:", options: ["Network Hacking", "Social Engineering (AI-based)", "SQL Injection", "Hardware exploit"], a: 1, e: "Deepfakes are a form of sophisticated social engineering using AI." },
+            { q: "Which forensic phase involves using tools to extract data from images?", options: ["Collection", "Examination", "Identification", "Presentation"], a: 1, e: "Examination uses specialized software to find hidden or deleted files." },
+            { q: "The phase where a forensic investigator explains their findings is:", options: ["Collection", "Reporting/Presentation", "Analysis", "Preservation"], a: 1, e: "Reporting is the final stage where findings are presented to stakeholders or a court." },
+            { q: "Which strategy focuses on the 'human' element of cyber security?", options: ["Firewalls", "Security Awareness Training", "Encryption", "Antivirus"], a: 1, e: "Most cyber attacks exploit human error, so training is vital." },
+            { q: "The concept of 'Zero Trust' architecture means:", options: ["Trust everyone on the network", "Never trust, always verify every access request", "Don't use passwords", "Don't use the internet"], a: 1, e: "Zero Trust assumes threats can be internal or external, so every user must be verified." },
+            { q: "Which policy defines how an organization handles security incidents?", options: ["Privacy Policy", "Incident Response Plan (IRP)", "Holiday Policy", "Attendance Policy"], a: 1, e: "An IRP provides instructions for detecting, responding to, and recovering from network security incidents." },
+            { q: "What is the penalty for non-compliance under the DPDP Act 2023?", options: ["No penalty", "Small fine of 100 rupees", "Significant monetary penalties up to 250 Crores", "Only an apology letter"], a: 2, e: "The act imposes heavy fines for data breaches or failure to protect personal data." },
+            { q: "Cyber Ethics refers to:", options: ["Learning how to hack faster", "Moral principles that govern digital behavior", "Avoiding the internet", "Buying expensive computers"], a: 1, e: "Cyber ethics is about being responsible and doing the right thing online." },
+            { q: "NCSP 2013 stands for:", options: ["National Cyber Security Policy", "New Computer Security Program", "National Cyber Safety Protocol", "Network Cyber Security Plan"], a: 0, e: "NCSP 2013 was India's first major policy to protect the national cyberspace." },
+            { q: "The act of pretending to be a legitimate person to get data is:", options: ["Phishing", "Spamming", "Caching", "Indexing"], a: 0, e: "Phishing is a type of social engineering where attackers masquerade as a trusted entity." },
+            { q: "Which attack targets a specific individual or organization?", options: ["General Phishing", "Spear Phishing", "Spam", "Random Hacking"], a: 1, e: "Spear phishing is a highly targeted and personalized attack." },
+            { q: "What is 'Malware'?", options: ["A type of hardware", "Malicious Software (Viruses, Trojans, etc.)", "Fast software", "Legal software"], a: 1, e: "Malware is software designed specifically to disrupt, damage, or gain unauthorized access to a system." },
+            { q: "A 'Trojan Horse' is malware that:", options: ["Protects your computer", "Looks useful but performs malicious actions", "Is a physical device", "Is a brand of monitor"], a: 1, e: "Trojans trick users into installing them by appearing as legitimate software." },
+            { q: "Which cybercrime involves holding data hostage for payment?", options: ["Spyware", "Ransomware", "Adware", "Bloatware"], a: 1, e: "Ransomware encrypts files and demands payment for the decryption key." },
+            { q: "Stealing credit card information by attaching a device to an ATM is:", options: ["Phishing", "Skimming", "Spoofing", "Scanning"], a: 1, e: "Skimming is a physical method of stealing credit card data." },
+            { q: "The practice of hiding a message inside another message/image is:", options: ["Cryptography", "Steganography", "Hashing", "Encryption"], a: 1, e: "Steganography hides the very existence of a message by concealing it in an image or audio file." },
+            { q: "What is 'Vulnerability'?", options: ["A strong firewall", "A weakness in a system that can be exploited", "A type of virus", "The cost of a PC"], a: 1, e: "Vulnerabilities are flaws that attackers use to gain access." },
+            { q: "Which tool is commonly used for network traffic analysis (Sniffing)?", options: ["MS Word", "Wireshark", "Photoshop", "Excel"], a: 1, e: "Wireshark is a famous network protocol analyzer." },
+            { q: "A 'Brute Force' attack targets:", options: ["Physical hardware", "Passwords (by trying every combination)", "Internet speed", "The monitor"], a: 1, e: "Brute force is a trial-and-error method used to decode passwords." },
+            { q: "What is 'Multi-Factor Authentication' (MFA)?", options: ["Using one password only", "Using two or more verification methods", "Sharing passwords", "Using no passwords"], a: 1, e: "MFA (like Password + OTP) adds an extra layer of security." },
+            { q: "Which phase of digital forensics involves the use of specialized software like EnCase?", options: ["Identification", "Examination", "Presentation", "Collection"], a: 1, e: "Tools like EnCase and FTK are used for examination and analysis." },
+            { q: "The legal document that allows police to seize digital evidence is:", options: ["A receipt", "A search warrant", "A business card", "A student ID"], a: 1, e: "Law enforcement typically needs a warrant to legally collect digital evidence." },
+            { q: "What is 'Cyberstalking'?", options: ["Following someone on the street", "Harassing someone online using digital tools", "Using a new computer", "Working from home"], a: 1, e: "Cyberstalking uses the internet or other electronic means to stalk or harass." },
+            { q: "Which type of hacking targets mobile app code?", options: ["OS Hacking", "Application Hacking", "Network Hacking", "Password Hacking"], a: 1, e: "Targeting software bugs in mobile or desktop apps is application hacking." },
+            { q: "An 'Exploit' is:", options: ["A secure system", "Code that takes advantage of a vulnerability", "A software update", "A marketing tool"], a: 1, e: "Exploits are the tools or code used to carry out an attack." },
+            { q: "What is 'Botnet'?", options: ["A fast internet connection", "A network of hijacked computers controlled by an attacker", "A type of robot", "A new search engine"], a: 1, e: "Botnets are used for large-scale attacks like DDoS or spamming." },
+            { q: "The 'Analysis' phase in forensics answers which question?", options: ["Where is the PC?", "How, when, and who performed the act?", "How much does the PC cost?", "Is the PC fast?"], a: 1, e: "Analysis reconstructs the events to find out the truth behind an incident." },
+            { q: "A 'Denial of Service' (DoS) attack aims to:", options: ["Steal passwords", "Make a service unavailable to legitimate users", "Upgrade the server", "Delete files"], a: 1, e: "DoS attacks overwhelm a system with traffic to crash it." },
+            { q: "What does 'Salami Attack' refer to?", options: ["A food-based virus", "Stealing small amounts of money from many accounts", "A physical attack on a server", "Deleting an entire database"], a: 1, e: "A Salami attack involves making many small, unnoticed changes/thefts that add up." },
+            { q: "Which concept emphasizes that security should be included from the start?", options: ["Patching", "Security by Design", "Post-incident repair", "Firewall installation"], a: 1, e: "Security by Design means building security into the product during development." },
+            { q: "A 'Keylogger' is used to:", options: ["Fix a keyboard", "Record every keystroke made by a user (to steal passwords)", "Unlock a car", "Type faster"], a: 1, e: "Keyloggers are malicious tools used to capture sensitive typed data." },
+            { q: "What is 'Social Engineering'?", options: ["Building a bridge", "Manipulating people into giving up confidential info", "Creating a social media app", "Designing a city"], a: 1, e: "Social engineering relies on human psychology rather than technical hacking." },
+            { q: "The 'I' in the CIA triad of security stands for:", options: ["Intelligence", "Integrity", "Identity", "Information"], a: 1, e: "The CIA triad stands for Confidentiality, Integrity, and Availability." },
+            { q: "Protecting information from being accessed by unauthorized people is:", options: ["Availability", "Confidentiality", "Integrity", "Accountability"], a: 1, e: "Confidentiality ensures that only authorized users can see sensitive data." }
+        ];
+
+        let currentIdx = 0, score = 0, answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('progress-text').innerText = `Question ${currentIdx + 1}/50`;
+            document.getElementById('progress-bar').style.width = `${((currentIdx + 1) / 50) * 100}%`;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-100 hover:border-rose-200 hover:bg-rose-50 font-medium text-sm text-slate-700 transition-all";
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(i, btn);
+                container.appendChild(btn);
+            });
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            answered = false;
+        }
+
+        function selectOption(idx, btn) {
+            if (answered) return;
+            answered = true;
+            const q = questions[currentIdx];
+            const allBtns = document.querySelectorAll('#options-container button');
+            if (idx === q.a) {
+                score++;
+                btn.classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+                document.getElementById('score-text').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('border-red-500', 'bg-red-50', 'text-red-700');
+                allBtns[q.a].classList.add('border-green-500', 'bg-green-50', 'text-green-700');
+            }
+            const exp = document.getElementById('explanation-box');
+            exp.innerHTML = `<strong>Explanation:</strong> ${q.e}`;
+            exp.classList.remove('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentIdx < questions.length - 1) {
+                currentIdx++;
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-screen').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+                document.getElementById('final-score').innerText = score;
+            }
+        }
+    </script>
+</body>
+</html>
